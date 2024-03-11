@@ -21,6 +21,7 @@ def load_file_and_sort(filename, reverse=False, augdata=None, aug_num=0, M=10):
     data = defaultdict(list)
     max_uind = 0
     max_iind = 0
+    abc=0
     with open(filename, 'r') as f:
         for line in f:
             one_interaction = line.rstrip().split("\t")
@@ -30,6 +31,8 @@ def load_file_and_sort(filename, reverse=False, augdata=None, aug_num=0, M=10):
             max_iind = max(max_iind, iind)
             t = float(one_interaction[2])
             data[uind].append((iind, t))
+    #         abc+=1
+    # print('abc:',abc)
     print('data users: ', max_uind)
     print('data items: ', max_iind)
     print('data instances: ', sum([len(ilist) for _, ilist in data.items()]))
@@ -105,14 +108,17 @@ def data_load(data_name, args):
     if args.aug_traindata > 0:
         user_train, train_usernum, train_itemnum = load_file_and_sort(train_file, reverse=reverseornot, augdata=augdata, aug_num=args.aug_traindata, M=args.M)
     else:
+        print(f"Loading {train_file} with reverse: {reverseornot}")
         user_train, train_usernum, train_itemnum = load_file_and_sort(train_file, reverse=reverseornot)
+    print(f"Loading {valid_file} with reverse: {reverseornot}")
     user_valid, valid_usernum, valid_itemnum = load_file_and_sort(valid_file, reverse=reverseornot)
+    print(f"Loading {test_file} with reverse: {reverseornot}")
     user_test, test_usernum, test_itemnum = load_file_and_sort(test_file, reverse=reverseornot)
 
     usernum = max([train_usernum, valid_usernum, test_usernum])
     itemnum = max([train_itemnum, valid_itemnum, test_itemnum])
 
-    print("num: ", len(user_valid), len(user_test), usernum, itemnum)
+    # print("num: ", len(user_valid), len(user_test), usernum, itemnum)
 
     return [user_train, user_valid, user_test, original_train, usernum, itemnum]
 

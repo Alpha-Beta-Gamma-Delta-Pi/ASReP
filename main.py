@@ -41,6 +41,7 @@ dataset = data_load(args.dataset, args)
 [user_train, user_valid, user_test, original_train, usernum, itemnum] = dataset
 num_batch = int(len(user_train) / args.batch_size)
 cc = []
+print(type(user_train), user_train[1])
 for u in user_train:
     cc.append(len(user_train[u]))
 cc = np.array(cc)
@@ -56,9 +57,9 @@ config.gpu_options.allow_growth = True
 config.allow_soft_placement = True
 sess = tf.Session(config=config)
 
-sampler = WarpSampler(user_train, usernum, itemnum, batch_size=args.batch_size, maxlen=args.maxlen, n_workers=3)
+sampler = WarpSampler(user_train, usernum, itemnum, batch_size=args.batch_size, maxlen=args.maxlen, n_workers=2)
 model = Model(usernum, itemnum, args)
-#sess.run(tf.global_variables_initializer())
+sess.run(tf.global_variables_initializer())
 
 aug_data_signature = './aug_data/{}/lr_{}_maxlen_{}_hsize_{}_nblocks_{}_drate_{}_l2_{}_nheads_{}_gen_num_{}_M_{}'.format(args.dataset, args.lr, args.maxlen, args.hidden_units, args.num_blocks, args.dropout_rate, args.l2_emb, args.num_heads, args.reversed_gen_number, args.M)
 print(aug_data_signature)
@@ -84,6 +85,7 @@ try:
         #print(num_batch)
         for step in range(num_batch):#tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
         #for step in tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
+            print(step, num_batch, args.batch_size, args.maxlen, args.hidden_units, args.num_blocks, args.dropout_rate, args.l2_emb, args.num_heads, args.reversed_gen_number, args.M, args.reversed_pretrain, args.aug_traindata)
             u, seq, pos, neg = sampler.next_batch()
             auc, loss, _ = sess.run([model.auc, model.loss, model.train_op],
                                     {model.u: u, model.input_seq: seq, model.pos: pos, model.neg: neg,

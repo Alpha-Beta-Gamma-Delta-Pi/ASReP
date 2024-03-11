@@ -1,0 +1,8 @@
+Aim: create train, val, test with normal and reversed files.
+
+
+-> import json.gz file
+
+-> read asin, reviewerID, unixReviewTime, countUser {dict}, countProduct{dict}
+-> write usermap {user id to rev id}, itemmap {prod id to }
+
