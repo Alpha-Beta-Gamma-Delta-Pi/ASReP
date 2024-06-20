@@ -6,3 +6,5 @@ Aim: create train, val, test with normal and reversed files.
 -> read asin, reviewerID, unixReviewTime, countUser {dict}, countProduct{dict}
 -> write usermap {user id to rev id}, itemmap {prod id to }
 
+-> train.txt has u_id {0-n}, i_id {0-n}, t {unixReviewTime},,,  order it acc to unixReviewTime
+-> train_reveresed is train file in reverse order of time

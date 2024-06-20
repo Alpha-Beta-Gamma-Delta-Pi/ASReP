@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 import copy
 import json
+import csv
 
 
 def parse(path):
@@ -16,9 +17,10 @@ countU = defaultdict(lambda: 0)
 countP = defaultdict(lambda: 0)
 line = 0
 
-DATASET = 'Cell_Phones_and_Accessories'
-dataname = '/home/zfan/BDSC/projects/datasets/reviews_{}_5.json.gz'.format(DATASET)
-#dataname = '/home/zfan/BDSC/projects/datasets/newamazon_reviews/{}.json.gz'.format(DATASET)
+DATASET = 'Beauty'
+dataname = 'reviews_{}_5.json.gz'.format(DATASET)
+DATASET = 'Beauty2'
+
 if not os.path.isdir('./'+DATASET):
     os.mkdir('./'+DATASET)
 train_file = './'+DATASET+'/train.txt'
@@ -33,13 +35,13 @@ test_reverse_file = './'+DATASET+'/test_reverse.txt'
 
 
 
-for l in parse(dataname):
-    line += 1
-    asin = l['asin']
-    rev = l['reviewerID']
-    time = l['unixReviewTime']
-    countU[rev] += 1
-    countP[asin] += 1
+# for l in parse(dataname):
+#     line += 1
+#     asin = l['asin']
+#     rev = l['reviewerID']
+#     time = l['unixReviewTime']
+#     countU[rev] += 1
+#     countP[asin] += 1
 
 usermap = dict()
 usernum = 0
@@ -51,6 +53,7 @@ for l in parse(dataname):
     asin = l['asin']
     rev = l['reviewerID']
     time = l['unixReviewTime']
+    rating = l['overall']
     #if countU[rev] < 5 or countP[asin] < 5:
     #    continue
 
@@ -67,7 +70,7 @@ for l in parse(dataname):
         itemid = itemnum
         itemmap[asin] = itemid
         itemnum += 1
-    User[userid].append([itemid, time])
+    User[userid].append([itemid, time, rating])
 # sort reviews in User according to time
 
 
@@ -84,9 +87,12 @@ User_forreversed = copy.deepcopy(User)
 for userid in User_forreversed.keys():
     User_forreversed[userid].sort(key=lambda x: x[1], reverse=True)
 
+print("Saved itemmap and usermap")
+
 user_train = {}
 user_valid = {}
 user_test = {}
+#train test val split w.r.t. no of user - item reviews
 for user in User:
     nfeedback = len(User[user])
     if nfeedback < 3:
@@ -122,8 +128,23 @@ print(usernum, itemnum)
 def writetofile(data, dfile):
     with open(dfile, 'w') as f:
         for u, ilist in sorted(data.items()):
-            for i, t in ilist:
-                f.write(str(u) + '\t'+ str(i) + '\t' + str(t) + "\n")
+            for i, t, r in ilist:
+                f.write(str(u) + '\t'+ str(i) + '\t' + str(t)+ '\t' + str(r) + "\n")
+
+                # def write_dict_to_csv(data, filename):
+                #     with open(filename, 'w', newline='') as csvfile:
+                #         writer = csv.writer(csvfile)
+                #         writer.writerow(['user', 'item', 'time'])
+                #         for user, ilist in sorted(data.items()):
+                #             for item, time in ilist:
+                #                 writer.writerow([user, item, time])
+
+                # write_dict_to_csv(user_train, train_file)
+                # write_dict_to_csv(user_valid, valid_file)
+                # write_dict_to_csv(user_test, test_file)
+                # write_dict_to_csv(user_train_reverse, train_reverse_file)
+                # write_dict_to_csv(user_valid_reverse, valid_reverse_file)
+                # write_dict_to_csv(user_test_reverse, test_reverse_file)
 
 writetofile(user_train, train_file)
 writetofile(user_valid, valid_file)

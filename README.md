@@ -35,7 +35,7 @@ python DataProcessing.py
 You will find the processed dataset in the directory with the name of your input dataset.
 
 
-## Baby Dataset Pre-training and Prediction
+## Beauty Dataset Pre-training and Prediction
 ### Reversely Pre-training and Short Sequence Augmentation
 Pre-train the model and output 20 items for sequences with length <= 20.
 ```
