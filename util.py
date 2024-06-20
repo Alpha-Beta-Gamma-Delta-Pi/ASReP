@@ -98,6 +98,7 @@ def data_load(data_name, args):
         original_train, _, _ = load_file_and_sort(original_train_file)
         aug_data_signature = './aug_data/{}/lr_{}_maxlen_{}_hsize_{}_nblocks_{}_drate_{}_l2_{}_nheads_{}_gen_num_'.format(args.dataset, args.lr, args.maxlen, args.hidden_units, args.num_blocks, args.dropout_rate, args.l2_emb, args.num_heads)
         gen_num_max = 20
+        print(aug_data_signature)
         if os.path.exists(aug_data_signature + str(gen_num_max) + '_M_20.txt'):
             augdata = augdata_load(aug_data_signature + str(gen_num_max) + '_M_20.txt')
             print('load ', aug_data_signature + str(gen_num_max) + '_M_20.txt')
