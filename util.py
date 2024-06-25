@@ -21,20 +21,24 @@ def load_file_and_sort(filename, reverse=False, augdata=None, aug_num=0, M=10):
     data = defaultdict(list)
     max_uind = 0
     max_iind = 0
+    max_rat  = 0
     abc=0
     with open(filename, 'r') as f:
         for line in f:
             one_interaction = line.rstrip().split("\t")
             uind = int(one_interaction[0]) + 1
             iind = int(one_interaction[1]) + 1
+            rat  = float(one_interaction[3])
             max_uind = max(max_uind, uind)
             max_iind = max(max_iind, iind)
+            max_rat  = max(max_rat,rat)
             t = float(one_interaction[2])
-            data[uind].append((iind, t))
+            data[uind].append((iind, t, rat))
     #         abc+=1
     # print('abc:',abc)
     print('data users: ', max_uind)
     print('data items: ', max_iind)
+    print('max rating: ', max_rat)
     print('data instances: ', sum([len(ilist) for _, ilist in data.items()]))
     if augdata:
         for u, ilist in augdata.items():
@@ -53,7 +57,9 @@ def load_file_and_sort(filename, reverse=False, augdata=None, aug_num=0, M=10):
             sorted_interactions = sorted(i_list, key=lambda x:x[1])
         else:
             sorted_interactions = sorted(i_list, key=lambda x:x[1], reverse=True)
-        seq = [interaction[0] for interaction in sorted_interactions]
+        # seq = [interaction[0] for interaction in sorted_interactions]
+        seq = [[interaction[0],interaction[2]] for interaction in sorted_interactions]
+
         sorted_data[u] = seq
 
     return sorted_data, max_uind, max_iind

@@ -56,7 +56,7 @@ if __name__ == '__main__':
     config.gpu_options.allow_growth = True
     config.allow_soft_placement = True
     sess = tf.Session(config=config)
-
+    # print(user_train)
     sampler = WarpSampler(user_train, usernum, itemnum, batch_size=args.batch_size, maxlen=args.maxlen, n_workers=2)
     model = Model(usernum, itemnum, args)
     sess.run(tf.global_variables_initializer())
@@ -86,9 +86,13 @@ if __name__ == '__main__':
             # for step in range(num_batch):#tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
             for step in tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
                 # print(step, num_batch, args.batch_size, args.maxlen, args.hidden_units, args.num_blocks, args.dropout_rate, args.l2_emb, args.num_heads, args.reversed_gen_number, args.M, args.reversed_pretrain, args.aug_traindata)
-                u, seq, pos, neg = sampler.next_batch()
+                u, seq, pos_rat, pos, neg = sampler.next_batch()
+                # print(len(u), u[0], seq[0], pos_rat[0])
+                # print(pos[0],seq[0])
+                # print(seq)
+                # print(len(pos),len(rat))
                 auc, loss, _ = sess.run([model.auc, model.loss, model.train_op],
-                                        {model.u: u, model.input_seq: seq, model.pos: pos, model.neg: neg,
+                                        {model.u: u, model.input_seq: seq, model.rating: pos_rat, model.pos: pos, model.neg: neg,
                                          model.is_training: True})
             print('epoch: %d, loss: %8f' % (epoch, loss))
 

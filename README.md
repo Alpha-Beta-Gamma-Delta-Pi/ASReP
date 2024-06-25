@@ -39,7 +39,7 @@ You will find the processed dataset in the directory with the name of your input
 ### Reversely Pre-training and Short Sequence Augmentation
 Pre-train the model and output 20 items for sequences with length <= 20.
 ```
-python main.py --dataset=Beauty --train_dir=default --lr=0.001 --hidden_units=128 --maxlen=100 --dropout_rate=0.7 --num_blocks=2 --l2_emb=0.0 --num_heads=4 --evalnegsample 100 --reversed 1 --reversed_gen_num 20 --M 20
+python main.py --dataset=Beauty2 --train_dir=default --lr=0.001 --hidden_units=128 --maxlen=100 --dropout_rate=0.7 --num_blocks=2 --l2_emb=0.0 --num_heads=4 --evalnegsample 100 --reversed 1 --reversed_gen_num 20 --M 20
 ```
 ### Next-Item Prediction with Reversed-Pre-Trained Model and Augmented dataset
 ```

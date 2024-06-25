@@ -14,23 +14,30 @@ def sample_function(user_train, usernum, itemnum, batch_size, maxlen, result_que
 
         user = np.random.randint(1, usernum + 1)
         while len(user_train[user]) <= 1: user = np.random.randint(1, usernum + 1)
+        # print(user_train[user])
 
         seq = np.zeros([maxlen], dtype=np.int32)
+        rat = np.zeros([maxlen], dtype=np.int32)
         pos = np.zeros([maxlen], dtype=np.int32)
         neg = np.zeros([maxlen], dtype=np.int32)
-        nxt = user_train[user][-1]
+        nxt = user_train[user][-1][0]
+        nxt_rat = user_train[user][-1][1]
         idx = maxlen - 1
 
-        ts = set(user_train[user])
+        ts = set([i[0] for i in user_train[user]])
         for i in reversed(user_train[user][:-1]):
-            seq[idx] = i
+            # print(seq[idx],i)
+            # print(nxt)
+            seq[idx] = i[0]
+            rat[idx] = nxt_rat
             pos[idx] = nxt
-            if nxt != 0: neg[idx] = random_neq(1, itemnum + 1, ts)
-            nxt = i
+            if nxt != 0: neg[idx] = random_neq(1, itemnum, ts)
+            nxt = i[0]
+            nxt_rat = i[1]
             idx -= 1
             if idx == -1: break
 
-        return (user, seq, pos, neg)
+        return (user, seq, rat, pos, neg)
 
     np.random.seed(SEED)
     while True:

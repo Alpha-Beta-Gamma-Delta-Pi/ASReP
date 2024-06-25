@@ -5,11 +5,13 @@ class Model():
     def __init__(self, usernum, itemnum, args, reuse=None):
         self.is_training = tf.placeholder(tf.bool, shape=())
         self.u = tf.placeholder(tf.int32, shape=(None))
-        self.input_seq = tf.placeholder(tf.int32, shape=(None, args.maxlen))
-        self.pos = tf.placeholder(tf.int32, shape=(None, args.maxlen))
-        self.neg = tf.placeholder(tf.int32, shape=(None, args.maxlen))
+        self.input_seq = tf.placeholder(tf.int32, shape=(None, args.maxlen)) # 1,2,3
+        self.rating = tf.placeholder(tf.int32, shape=(None, args.maxlen)) 
+        self.pos = tf.placeholder(tf.int32, shape=(None, args.maxlen)) # 2,3,..
+        self.neg = tf.placeholder(tf.int32, shape=(None, args.maxlen)) # 23,97,45
         pos = self.pos
         neg = self.neg
+        rating = self.rating
         mask = tf.expand_dims(tf.to_float(tf.not_equal(self.input_seq, 0)), -1)
 
         src_masks = tf.math.equal(self.input_seq, 0)
@@ -100,6 +102,35 @@ class Model():
             ((tf.sign(self.pos_logits - self.neg_logits) + 1) / 2) * istarget
         ) / tf.reduce_sum(istarget)
 
+
+        # # Adjusted Step 1: Define uninteresting items based on rating
+        # uninteresting_rating_threshold = 2
+
+        # # Adjusted Step 2: Compute auxiliary loss
+        # # Identify uninteresting items in positive and negative samples based on rating
+        # is_uninteresting = tf.less(rating, uninteresting_rating_threshold)
+        # # is_uninteresting_neg = tf.less(neg_ratings, uninteresting_rating_threshold)
+
+        # # Compute auxiliary loss for uninteresting items based on rating
+        # # Here, we penalize false positives and false negatives among uninteresting items
+        # auxiliary_loss = tf.where(is_uninteresting,
+        #                               -tf.log(tf.sigmoid(self.pos_logits) + 1e-24),
+        #                               tf.zeros_like(self.pos_logits))
+        # # auxiliary_loss_neg = tf.where(is_uninteresting_neg,
+        # #                               -tf.log(1 - tf.sigmoid(self.neg_logits) + 1e-24),
+        # #                               tf.zeros_like(self.neg_logits))
+
+        # # Combine auxiliary losses and apply target mask
+        # auxiliary_loss = tf.reduce_sum((auxiliary_loss) * istarget) / tf.reduce_sum(istarget)
+
+        # # Step 3: Combine auxiliary loss with main loss
+        # # Add a weighting factor for auxiliary loss (tune this based on performance)
+        # auxiliary_loss_weight = 0.2
+        # self.loss += auxiliary_loss_weight * auxiliary_loss
+
+
+
+        
         if reuse is None:
             tf.summary.scalar('auc', self.auc)
             self.global_step = tf.Variable(0, name='global_step', trainable=False)
