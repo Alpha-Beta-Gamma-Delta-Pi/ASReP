@@ -47,6 +47,9 @@ for l in parse(dataname):
     #if countU[rev] < 5 or countP[asin] < 5:
     #    continue
 
+    if rating < 3:
+        continue
+
     if rev in usermap:
         userid = usermap[rev]
     else:
@@ -60,8 +63,9 @@ for l in parse(dataname):
         itemid = itemnum
         itemmap[asin] = itemid
         itemnum += 1
-    if rating > 3:
-        User[userid].append([itemid, time])
+    # if rating > 3:
+    #     User[userid].append([itemid, time])
+    User[userid].append([itemid, time])
 
 # sort reviews in User according to time
 

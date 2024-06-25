@@ -77,6 +77,9 @@ if __name__ == '__main__':
         saver.restore(sess, './reversed_models/'+args.dataset+'_reversed/'+model_signature+'.ckpt')
         print('pretain model loaded')
 
+    fn = "reversed_models/" + args.dataset + "_reversed" + str(args.num_epochs) + args.dataset + "_result.txt"
+    f = open(fn, "w")
+
     T = 0.0
     t0 = time.time()
 
@@ -118,15 +121,25 @@ if __name__ == '__main__':
                     t_valid, t_valid_short_seq, t_valid_short7_seq, t_valid_short37_seq, t_valid_medium3_seq, t_valid_medium7_seq, t_valid_long_seq, valid_rankitems = evaluate(model, dataset, args, sess, "valid")
                 #print('epoch:%d, time: %f(s), valid NDCG@10: %.4f HR@10: %.4f NDCG@1: %.4f HR@1: %.4f NDCG@5: %.4f HR@5: %.4f test NDCG@10: %.4f HR@10: %.4f NDCG@1: %.4f HR@1: %.4f NDCG@5: %.4f HR@5: %.4f' % (
                 #epoch, T, t_valid[0], t_valid[1], t_valid[2], t_valid[3], t_valid[4], t_valid[5], t_test[0], t_test[1], t_test[2], t_test[3], t_test[4], t_test[5]))
+                    s = ""
                     print('epoch: '+ str(epoch)+' validationall: '+str(t_valid) + '\nepoch: '+str(epoch)+' testall: ' + str(t_test))
+                    s += 'epoch: '+ str(epoch)+' validationall: '+str(t_valid) + '\nepoch: '+str(epoch)+' testall: ' + str(t_test)
                     print('epoch: '+ str(epoch)+' validationshort: '+str(t_valid_short_seq) + '\nepoch: '+str(epoch)+' testshort: ' + str(t_test_short_seq))
+                    s += '\n\nepoch: '+ str(epoch)+' validationshort: '+str(t_valid_short_seq) + '\nepoch: '+str(epoch)+' testshort: ' + str(t_test_short_seq)
                     print('epoch: '+ str(epoch)+' validationshort7: '+str(t_valid_short7_seq) + '\nepoch: '+str(epoch)+' testshort7: ' + str(t_test_short7_seq))
+                    s += '\n\nepoch: '+ str(epoch)+' validationshort7: '+str(t_valid_short7_seq) + '\nepoch: '+str(epoch)+' testshort7: ' + str(t_test_short7_seq)
                     print('epoch: '+ str(epoch)+' validationshort37: '+str(t_valid_short37_seq) + '\nepoch: '+str(epoch)+' testshort37: ' + str(t_test_short37_seq))
+                    s +=  '\n\nepoch: '+ str(epoch)+' validationshort37: '+str(t_valid_short37_seq) + '\nepoch: '+str(epoch)+' testshort37: ' + str(t_test_short37_seq)
                     print('epoch: '+ str(epoch)+' validationmedium3: '+str(t_valid_medium3_seq) + '\nepoch: '+str(epoch)+' testmedium3: ' + str(t_test_medium3_seq))
+                    s += '\n\nepoch: '+ str(epoch)+' validationmedium3: '+str(t_valid_medium3_seq) + '\nepoch: '+str(epoch)+' testmedium3: ' + str(t_test_medium3_seq)
                     print('epoch: '+ str(epoch)+' validationmedium7: '+str(t_valid_medium7_seq) + '\nepoch: '+str(epoch)+' testmedium7: ' + str(t_test_medium7_seq))
+                    s += '\n\nepoch: '+ str(epoch)+' validationmedium7: '+str(t_valid_medium7_seq) + '\nepoch: '+str(epoch)+' testmedium7: ' + str(t_test_medium7_seq)
                     print('epoch: '+ str(epoch)+' validationlong: '+str(t_valid_long_seq) + '\nepoch: '+str(epoch)+' testlong: ' + str(t_test_long_seq))
+                    s += '\n\nepoch: '+ str(epoch)+' validationlong: '+str(t_valid_long_seq) + '\nepoch: '+str(epoch)+' testlong: ' + str(t_test_long_seq)
+                    f.write(s)
                 else:
                     print('epoch: '+str(epoch)+' test: ' + str(t_test))
+                    f.write(str(t_test))
 
                 t0 = time.time()
     except Exception as e:
