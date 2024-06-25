@@ -19,6 +19,7 @@ line = 0
 
 DATASET = 'Beauty'
 dataname = 'reviews_{}_5.json.gz'.format(DATASET)
+DATASET = 'Beauty2'
 
 if not os.path.isdir('./'+DATASET):
     os.mkdir('./'+DATASET)
@@ -32,16 +33,6 @@ train_reverse_file = './'+DATASET+'/train_reverse.txt'
 valid_reverse_file = './'+DATASET+'/valid_reverse.txt'
 test_reverse_file = './'+DATASET+'/test_reverse.txt'
 
-
-
-# for l in parse(dataname):
-#     line += 1
-#     asin = l['asin']
-#     rev = l['reviewerID']
-#     time = l['unixReviewTime']
-#     countU[rev] += 1
-#     countP[asin] += 1
-
 usermap = dict()
 usernum = 0
 itemmap = dict()
@@ -52,6 +43,7 @@ for l in parse(dataname):
     asin = l['asin']
     rev = l['reviewerID']
     time = l['unixReviewTime']
+    rating = l['overall']
     #if countU[rev] < 5 or countP[asin] < 5:
     #    continue
 
@@ -68,7 +60,9 @@ for l in parse(dataname):
         itemid = itemnum
         itemmap[asin] = itemid
         itemnum += 1
-    User[userid].append([itemid, time])
+    if rating > 3:
+        User[userid].append([itemid, time])
+
 # sort reviews in User according to time
 
 
