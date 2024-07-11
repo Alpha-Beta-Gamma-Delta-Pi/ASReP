@@ -17,9 +17,11 @@ countU = defaultdict(lambda: 0)
 countP = defaultdict(lambda: 0)
 line = 0
 
-DATASET = 'Beauty'
+# DATASET = 'Beauty'
+DATASET = 'Cell_Phones_and_Accessories'
 dataname = 'reviews_{}_5.json.gz'.format(DATASET)
-DATASET = 'Beauty2'
+# DATASET = 'Beauty2'
+DATASET += '_2'
 
 if not os.path.isdir('./'+DATASET):
     os.mkdir('./'+DATASET)
@@ -38,6 +40,7 @@ usernum = 0
 itemmap = dict()
 itemnum = 0
 User = dict()
+tot_rating = 0
 for l in parse(dataname):
     line += 1
     asin = l['asin']
@@ -49,6 +52,8 @@ for l in parse(dataname):
 
     if rating < 3:
         continue
+
+    tot_rating += rating
 
     if rev in usermap:
         userid = usermap[rev]
@@ -154,6 +159,7 @@ writetofile(user_test_reverse, test_reverse_file)
 num_instances = sum([len(ilist) for _, ilist in User.items()])
 print('total user: ', len(User))
 print('total instances: ', num_instances)
+print('average rating: ', tot_rating/num_instances)
 print('total items: ', itemnum)
 print('density: ', num_instances / (len(User) * itemnum))
 print('valid #users: ', len(user_valid))
