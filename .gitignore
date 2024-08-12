@@ -1,0 +1,7 @@
+data/*.json.gz
+__pycache__
+reversed_models/*.txt
+reversed_models/*.json
+*.png
+data/ml-1m
+data/reviews_Beauty_5.json

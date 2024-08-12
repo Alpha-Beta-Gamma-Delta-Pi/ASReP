@@ -1,0 +1,17 @@
+model
+
+init
+-> is_training {training or not}
+-> u {user_id}
+-> input_seq {seq of item_id}
+-? pos {positive items, user interacted items}
+-> neg {negative items, used did not interact}
+-> mask {indicates where the input sequences are not equal to zero}
+-> src_masks {indicates where the input sequences are equal to zero}
+
+
+
+
+
+
+conda create -n asrep tensorflow-gpu==1.12 python==3.6.13 
