@@ -57,3 +57,13 @@ python main.py --dataset=Cell_Phones_and_Accessories --train_dir=default --lr=0.
 python main.py --dataset=Cell_Phones_and_Accessories --train_dir=default --lr=0.001 --hidden_units=32 --maxlen=100 --dropout_rate=0.5 --num_blocks=2 --l2_emb=0.0 --num_heads=2 --evalnegsample 100 --reversed_pretrain 1  --aug_traindata 17 --M 18
 ```
 
+## Movie-Lens Dataset Pre-training and Prediction
+### Reversely Pre-training and Short Sequence Augmentation
+Pre-train the model and output 20 items for sequences with length <= 20.
+```
+python main.py --dataset=ml-1m_2 --train_dir=default --lr=0.001 --hidden_units=32 --maxlen=100 --dropout_rate=0.5 --num_blocks=2 --l2_emb=0.0 --num_heads=2 --evalnegsample 100 --reversed 1 --reversed_gen_num 20 --M 20
+```
+### Next-Item Prediction with Reversed-Pre-Trained Model and Augmented dataset
+```
+python main.py --dataset=ml-1m_2 --train_dir=default --lr=0.001 --hidden_units=32 --maxlen=100 --dropout_rate=0.5 --num_blocks=2 --l2_emb=0.0 --num_heads=2 --evalnegsample 100 --reversed_pretrain 1  --aug_traindata 17 --M 18
+```

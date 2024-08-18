@@ -478,12 +478,12 @@ def evaluate(model, dataset, args, sess, testorvalid):
         short_seq_results["hit_ratio"] += re["hit_ratio"]
         short_seq_results["auc"] += re["auc"]
         short_seq_results["mrr"] += re["mrr"]
-    short_seq_results["precision"] /= len(short_seq_test_indices)
-    short_seq_results["recall"] /= len(short_seq_test_indices)
-    short_seq_results["ndcg"] /= len(short_seq_test_indices)
-    short_seq_results["hit_ratio"] /= len(short_seq_test_indices)
-    short_seq_results["auc"] /= len(short_seq_test_indices)
-    short_seq_results["mrr"] /= len(short_seq_test_indices)
+    short_seq_results["precision"] /= len(short_seq_test_indices)+1
+    short_seq_results["recall"] /= len(short_seq_test_indices)+1
+    short_seq_results["ndcg"] /= len(short_seq_test_indices)+1
+    short_seq_results["hit_ratio"] /= len(short_seq_test_indices)+1
+    short_seq_results["auc"] /= len(short_seq_test_indices)+1
+    short_seq_results["mrr"] /= len(short_seq_test_indices)+1
 
     print(f"testing #of short seq users with less than 3 training points: {len(short_seq_test_indices)}")
 
@@ -498,12 +498,12 @@ def evaluate(model, dataset, args, sess, testorvalid):
         short7_seq_results["hit_ratio"] += re["hit_ratio"]
         short7_seq_results["auc"] += re["auc"]
         short7_seq_results["mrr"] += re["mrr"]
-    short7_seq_results["precision"] /= len(short7_seq_test_indices)
-    short7_seq_results["recall"] /= len(short7_seq_test_indices)
-    short7_seq_results["ndcg"] /= len(short7_seq_test_indices)
-    short7_seq_results["hit_ratio"] /= len(short7_seq_test_indices)
-    short7_seq_results["auc"] /= len(short7_seq_test_indices)
-    short7_seq_results["mrr"] /= len(short7_seq_test_indices)
+    short7_seq_results["precision"] /= len(short7_seq_test_indices)+1
+    short7_seq_results["recall"] /= len(short7_seq_test_indices)+1
+    short7_seq_results["ndcg"] /= len(short7_seq_test_indices)+1
+    short7_seq_results["hit_ratio"] /= len(short7_seq_test_indices)+1
+    short7_seq_results["auc"] /= len(short7_seq_test_indices)+1
+    short7_seq_results["mrr"] /= len(short7_seq_test_indices)+1
     print(f"testing #of short seq users with less than 7 training points: {len(short7_seq_test_indices)}")
 
 
@@ -516,12 +516,12 @@ def evaluate(model, dataset, args, sess, testorvalid):
         short37_seq_results["hit_ratio"] += re["hit_ratio"]
         short37_seq_results["auc"] += re["auc"]
         short37_seq_results["mrr"] += re["mrr"]
-    short37_seq_results["precision"] /= len(short37_seq_test_indices)
-    short37_seq_results["recall"] /= len(short37_seq_test_indices)
-    short37_seq_results["ndcg"] /= len(short37_seq_test_indices)
-    short37_seq_results["hit_ratio"] /= len(short37_seq_test_indices)
-    short37_seq_results["auc"] /= len(short37_seq_test_indices)
-    short37_seq_results["mrr"] /= len(short37_seq_test_indices)
+    short37_seq_results["precision"] /= len(short37_seq_test_indices)+1
+    short37_seq_results["recall"] /= len(short37_seq_test_indices)+1
+    short37_seq_results["ndcg"] /= len(short37_seq_test_indices)+1
+    short37_seq_results["hit_ratio"] /= len(short37_seq_test_indices)+1
+    short37_seq_results["auc"] /= len(short37_seq_test_indices)+1
+    short37_seq_results["mrr"] /= len(short37_seq_test_indices)+1
     print(f"testing #of short seq users with 3 - 7 training points: {len(short37_seq_test_indices)}")
 
 
