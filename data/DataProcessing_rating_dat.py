@@ -22,7 +22,7 @@ DATASET = 'ml-1m'
 # dataname = 'reviews_{}_5.json.gz'.format(DATASET)
 dataname = '{}/ratings.dat'.format(DATASET)
 # DATASET = 'Beauty2'
-DATASET += '_2'
+DATASET += '_1'
 
 if not os.path.isdir('./'+DATASET):
     os.mkdir('./'+DATASET)
@@ -54,8 +54,8 @@ with open(dataname, 'r') as f:
         #if countU[rev] < 5 or countP[asin] < 5:
         #    continue
 
-        if rating < 3:
-            continue
+        # if rating < 3:
+        #     continue
 
         tot_rating += rating
 
